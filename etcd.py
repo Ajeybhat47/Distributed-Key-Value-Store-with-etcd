@@ -81,7 +81,7 @@ if __name__ == "__main__":
 
     key = key_list[0]
 
-    delete_etcd_key(etcd_client, key)
+    # delete_etcd_key(etcd_client, key)
 
     key_list = get_all_etcd_keys(etcd_client)
     print(key_list)
