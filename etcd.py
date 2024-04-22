@@ -1,7 +1,9 @@
 import etcd3
 import os
 
+
 def connect_to_etcd(host, port):
+
     try:
         # Establish connection to etcd client
         etcd_client = etcd3.client(host=host, port=port)
@@ -15,7 +17,9 @@ def connect_to_etcd(host, port):
         print(f"Error: {e}")
         return None
 
+
 def get_all_etcd_keys(etcd_client):
+
     try:
         # Retrieve all keys
         keys = etcd_client.get_all()
@@ -30,7 +34,9 @@ def get_all_etcd_keys(etcd_client):
         print(f"Error: {e}")
     return []
 
+
 def get_etcd_key_value(etcd_client, key):
+
     try:
         # Retrieve the value for the given key
         value, metadata = etcd_client.get(key)
@@ -39,7 +45,6 @@ def get_etcd_key_value(etcd_client, key):
         if value is None:
             print(f"Key '{key}' does not exist.")
             return None
-
         return value.decode('utf-8')
 
     except etcd3.exceptions.ConnectionFailedError as e:
@@ -48,7 +53,9 @@ def get_etcd_key_value(etcd_client, key):
         print(f"Error: {e}")
     return None
 
+
 def insert_etcd_key_value(etcd_client, key, value):
+
     try:
         # Insert the key-value pair
         etcd_client.put(key, value)
@@ -74,12 +81,8 @@ def delete_etcd_key(etcd_client, key):
 
 
 
-
-
-
-
-
 if __name__ == "__main__":
+
         etcd_client = connect_to_etcd("localhost",22379)
         if etcd_client is not None:
             while True:
@@ -89,7 +92,8 @@ if __name__ == "__main__":
                 print("2. Get value for a key")
                 print("3. Insert a key-value pair")
                 print("4. Delete a key")
-                print("5. Exit")
+                print("5. Change ETCD node")
+                print("0. Exit")
 
                 choice = input("Enter your choice: ")
 
@@ -109,6 +113,9 @@ if __name__ == "__main__":
                     key = input("Enter the key: ")
                     success = delete_etcd_key(etcd_client, key)
                 elif choice == "5":
+                    port = input("VALID PORTS=[22379,32379]\nEnter Port Number: ")
+                    success = connect_to_etcd("localhost",int(port))
+                elif choice == "0":
                     print("Exiting...")
                     break
                 else:
