@@ -57,7 +57,6 @@ def get_etcd_key_value(etcd_client, key):
 def insert_etcd_key_value(etcd_client, key, value):
 
     try:
-        # Insert the key-value pair
         etcd_client.put(key, value)
         print(f"Inserted key '{key}' with value '{value}' successfully.")
         return True
@@ -72,9 +71,13 @@ def delete_etcd_key(etcd_client, key):
     if etcd_client:
         try:
             # Delete the keys
-            etcd_client.delete(key)
-            print(f"Deleted key '{key}' successfully.")
-            return True
+            deleted = etcd_client.delete(key)
+            if deleted:
+                print(f"Deleted key '{key}' successfully.")
+                return True
+            else:
+                print(f"Key '{key}' does not exist.")
+                return False
         except Exception as e:
             print(f"Error: {e}")
     return False
