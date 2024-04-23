@@ -32,7 +32,7 @@ def get_all_etcd_keys(etcd_client):
         print(f"Connection to etcd failed in get_all_etcd_keys: {e}")
     except Exception as e:
         print(f"Error: {e}")
-    return []
+    
 
 
 def get_etcd_key_value(etcd_client, key):
